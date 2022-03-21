@@ -1,6 +1,8 @@
 package problem2;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @author mango
@@ -11,42 +13,56 @@ import java.util.List;
  */
 public class Solution2 {
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        if (l1.getVal() == 0){
-            return l2;
-        }
-        if (l2.getVal() == 0){
-            return l1;
-        }
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+
         int highLevel = 0;
 
-        ListNode result = new ListNode();
-        while(l1 != null || l2 != null){
+        List<ListNode> list = new ArrayList<>();
 
-            //设置进位和当前node的值
-            int i = l1.getVal() + l2.getVal() + highLevel;
+        while(l1 != null || l2 != null){
+            int i = 0;
+            if (l1 != null){
+                i = l1.getVal();
+            }
+            int i2 = 0;
+            if (l2 != null){
+                i2 = l2.getVal();
+            }
+            int sum = i + i2 + highLevel;
 
             ListNode listNode = new ListNode();
-            listNode.setVal(i / 10);
-            highLevel = i % 10;
+            listNode.setVal(sum % 10);
+            highLevel = sum / 10;
 
-            result.setNext(listNode);
-            if (l1.getNext() == null && l2.getNext() == null){
+            list.add(listNode);
+
+            if ((l1 == null || l1.getNext() == null )&& (l2 == null || l2.getNext() == null)){
                 if (highLevel != 0){
-
+                    ListNode tmp = new ListNode();
+                    tmp.setVal(highLevel);
+                    list.add(tmp);
                 }
-                return listNode;
+                break;
             }
-            if (l1.getNext() == null){
-                l1 = new ListNode(0);
+            if (l1 != null ){
+                l1 = Optional.ofNullable(l1.getNext()).orElse(null);
             }
-
-            if (l2.getNext() == null){
-                l2 = new ListNode(0);
+            if (l2 != null ){
+                l2 = Optional.ofNullable(l2.getNext()).orElse(null);
             }
         }
 
-        return listNode;
+        for (int i = 0; i < list.size()-1; i++) {
+            list.get(i).setNext(list.get(i+1));
+        }
+
+        return list.get(0);
     }
 
+    public static void main(String[] args) {
+        ListNode listNode1 = new ListNode(9,new ListNode(9,new ListNode(9)));
+        ListNode listNode2 = new ListNode(9,new ListNode(9,new ListNode(9,new ListNode(9,new ListNode(9,new ListNode(9))))));
+        ListNode result = addTwoNumbers(listNode1, listNode2);
+        System.out.println(result.toString());
+    }
 }
