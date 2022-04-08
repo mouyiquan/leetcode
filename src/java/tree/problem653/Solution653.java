@@ -1,6 +1,4 @@
-package problem653;
-
-import com.sun.jmx.remote.internal.ArrayQueue;
+package tree.problem653;
 
 import java.util.ArrayDeque;
 import java.util.HashSet;
