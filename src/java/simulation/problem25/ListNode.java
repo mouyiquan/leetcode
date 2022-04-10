@@ -1,4 +1,4 @@
-package problem2;
+package simulation.problem25;
 
 /**
  * @author mango
