@@ -1,4 +1,4 @@
-package other.problem152;
+package other;
 
 /**
  * @author mango
